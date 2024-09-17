@@ -1,6 +1,5 @@
-package ru.micro.demo.eurekaclient.controller;
+package ru.micro.demo.eurekaclient2.controller;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,11 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/main")
 public class DemoController {
 
-    @Value("${eureka.instance.instance-id}")
-    private String instanceId;
-
-    @GetMapping("/demo")
+    @GetMapping("/demo2")
     public String demo() {
-        return instanceId;
+        return "demo2";
     }
 }
