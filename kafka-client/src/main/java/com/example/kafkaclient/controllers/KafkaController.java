@@ -1,6 +1,9 @@
 package com.example.kafkaclient.controllers;
 
+import com.example.kafkaclient.configurations.KafkaConfiguration;
+import com.example.kafkaclient.dto.KafkaResponseDto;
 import com.example.kafkaclient.services.KafkaService;
+import lombok.AllArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.Response;
@@ -10,10 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+
 @RestController
+@AllArgsConstructor
 public class KafkaController {
 
-    @Autowired
     private KafkaService kafkaService;
 
     @GetMapping("/producer")
@@ -22,7 +27,7 @@ public class KafkaController {
     }
 
     @GetMapping("/consumer")
-    public ResponseEntity<ConsumerRecords<String, String>> consumer() {
+    public ResponseEntity<ArrayList<KafkaResponseDto>> consumer() {
         return new ResponseEntity<>(kafkaService.consumer(), HttpStatus.OK);
     }
 }

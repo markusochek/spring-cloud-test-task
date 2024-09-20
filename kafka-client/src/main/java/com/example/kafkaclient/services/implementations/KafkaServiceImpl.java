@@ -1,30 +1,30 @@
 package com.example.kafkaclient.services.implementations;
 
+import com.example.kafkaclient.configurations.KafkaConfiguration;
+import com.example.kafkaclient.dto.KafkaResponseDto;
 import com.example.kafkaclient.services.KafkaService;
+import lombok.AllArgsConstructor;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Properties;
 
 @Service
+@AllArgsConstructor
 public class KafkaServiceImpl implements KafkaService {
 
-    @Value("${KAFKA_HOST}")
-    private String KAFKA_HOST;
-
-    @Value("${KAFKA_PORT}")
-    private String KAFKA_PORT;
+    private KafkaConfiguration kafkaConfiguration;
 
     @Override
     public boolean producer() {
         Properties props = new Properties();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_HOST + ":" + KAFKA_PORT);
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfiguration.getHost() + ":" + kafkaConfiguration.getPort());
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
@@ -58,26 +58,29 @@ public class KafkaServiceImpl implements KafkaService {
     }
 
     @Override
-    public ConsumerRecords<String, String> consumer() {
+    public ArrayList<KafkaResponseDto> consumer() {
         Properties props = new Properties();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_HOST + ":" + KAFKA_PORT);
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfiguration.getHost() + ":" + kafkaConfiguration.getPort());
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "my-group-id");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
 
         Consumer<String, String> consumer = null;
-
         try {
             consumer = new KafkaConsumer<>(props);
             consumer.subscribe(Collections.singletonList("Messages"));
-        while (true) {
+            while (true) {
             try {
-                ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
-                for (ConsumerRecord<String, String> record : records) {
-                    System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
-                }
+                ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(1000));
+                if (!records.isEmpty()) {
+                    ArrayList<KafkaResponseDto> kafkaResponseDtoArrayList = new ArrayList<>();
+                    for (ConsumerRecord<String, String> record : records) {
+                        System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
+                        kafkaResponseDtoArrayList.add(new KafkaResponseDto(record.offset(), record.key(), record.value()));
+                    }
 
-                return records;
+                    return kafkaResponseDtoArrayList;
+                }
             } catch (Exception e) {
                 System.err.println("Error during poll: " + e.getMessage());
             }

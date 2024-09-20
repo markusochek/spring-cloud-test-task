@@ -9,7 +9,7 @@ version = "0.0.1-SNAPSHOT"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = (JavaLanguageVersion.of(17))
     }
 }
 
@@ -20,10 +20,16 @@ repositories {
 extra["springCloudVersion"] = "2023.0.3"
 
 dependencies {
+    implementation("org.jetbrains:annotations:20.1.0")
+    compileOnly("org.projectlombok:lombok:1.18.34")
+    annotationProcessor("org.projectlombok:lombok:1.18.34")
+
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("org.springframework.kafka:spring-kafka")
-    implementation("io.freefair.gradle:lombok-plugin:8.10")
+    implementation("org.springframework.cloud:spring-cloud-config-client")
+    implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
+    implementation("dozer-core:spring-cloud-starter-sleuth")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.kafka:spring-kafka-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

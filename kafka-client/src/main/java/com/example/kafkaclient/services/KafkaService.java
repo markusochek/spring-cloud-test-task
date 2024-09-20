@@ -1,8 +1,10 @@
 package com.example.kafkaclient.services;
 
-import org.apache.kafka.clients.consumer.ConsumerRecords;
+import com.example.kafkaclient.dto.KafkaResponseDto;
+
+import java.util.ArrayList;
 
 public interface KafkaService {
     boolean producer();
-    ConsumerRecords<String, String> consumer();
+    ArrayList<KafkaResponseDto> consumer();
 }
