@@ -1,10 +1,10 @@
 plugins {
 	java
-	id("org.springframework.boot") version "3.3.3"
+	id("org.springframework.boot") version "3.3.4"
 	id("io.spring.dependency-management") version "1.1.6"
 }
 
-group = "ru.micro.demo"
+group = "com.example"
 version = "0.0.1-SNAPSHOT"
 
 java {
@@ -20,8 +20,7 @@ repositories {
 extra["springCloudVersion"] = "2023.0.3"
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+	implementation("org.springframework.cloud:spring-cloud-config-server")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
