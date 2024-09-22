@@ -37,7 +37,6 @@ public class RabbitMQServiceImpl implements RabbitMQService {
     @Override
     public RabbitMQResponseDto consumer() {
         Object message = rabbitTemplate.receiveAndConvert(QUEUE_NAME);
-        System.out.println(message);
         return (message != null) ? new RabbitMQResponseDto(message.toString()) : null;
     }
 }

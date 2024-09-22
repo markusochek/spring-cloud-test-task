@@ -8,7 +8,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class KafkaResponseDto {
-    private Long offset;
-    private String key;
-    private String value;
+    private String message;
 }

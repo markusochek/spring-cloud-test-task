@@ -29,7 +29,7 @@ public class KafkaController {
     }
 
     @GetMapping("/consumer")
-    public ResponseEntity<ArrayList<KafkaResponseDto>> consumer() {
+    public ResponseEntity<KafkaResponseDto> consumer() {
         return new ResponseEntity<>(kafkaService.consumer(), HttpStatus.OK);
     }
 }
