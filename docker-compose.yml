@@ -1,0 +1,48 @@
+services:
+  config-server:
+    build: ./config-server
+    ports:
+      - "8888:8888"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  eureka-server:
+    build: ./eureka-server
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - config-server
+
+  kafka-client:
+    build: ./kafka-client
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - config-server
+      - eureka-server
+
+#  rabbitmq-client:
+#    build: ./rabbitmq-client
+#    ports:
+#      - "8081:8081"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    depends_on:
+#      - config-server
+#      - eureka-server
+
+#  api-gateway:
+#    build: ./api-gateway
+#    ports:
+#      - "8765:8765"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    depends_on:
+#      - config-server
+#      - eureka-server
+#      - kafka-client
+#      - rabbitmq-client
