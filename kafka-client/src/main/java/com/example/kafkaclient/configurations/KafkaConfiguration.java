@@ -24,8 +24,6 @@ public class KafkaConfiguration {
 
     @Bean
     public ProducerFactory<String, String> producerFactory() {
-        System.out.println(host + ":" + port);
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, host + ":" + port);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);

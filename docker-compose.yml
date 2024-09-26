@@ -57,6 +57,7 @@ services:
 networks:
   app-network:
     driver: bridge
+
 #  rabbitmq-client:
 #    build: ./rabbitmq-client
 #    ports:
