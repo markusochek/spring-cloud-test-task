@@ -24,9 +24,9 @@ dependencies {
     compileOnly("org.projectlombok:lombok:1.18.34")
     annotationProcessor("org.projectlombok:lombok:1.18.34")
 
-    implementation("org.springframework.boot:spring-boot-starter-amqp")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+    implementation("org.springframework.boot:spring-boot-starter-amqp")
     implementation("org.springframework.cloud:spring-cloud-config-client")
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
 //    implementation("dozer-core:spring-cloud-starter-sleuth")

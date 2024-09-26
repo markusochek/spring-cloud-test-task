@@ -21,6 +21,18 @@ services:
       - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
       - CLUSTER_ID=MkU3OEVBNTcwNTJENDM2Qk
 
+  rabbitmq-server:
+    networks:
+      - app-network
+    image: rabbitmq:3.10.7-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
   config-server:
     networks:
       - app-network
@@ -54,19 +66,16 @@ services:
       - eureka-server
       - kafka-server
 
-networks:
-  app-network:
-    driver: bridge
-
-#  rabbitmq-client:
-#    build: ./rabbitmq-client
-#    ports:
-#      - "8081:8081"
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=docker
-#    depends_on:
-#      - config-server
-#      - eureka-server
+  rabbitmq-client:
+    build: ./rabbitmq-client
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - config-server
+      - eureka-server
+      - rabbitmq-server
 
 #  api-gateway:
 #    build: ./api-gateway
@@ -79,3 +88,7 @@ networks:
 #      - eureka-server
 #      - kafka-client
 #      - rabbitmq-client
+
+networks:
+  app-network:
+    driver: bridge

@@ -4,7 +4,7 @@ COPY build.gradle.kts settings.gradle.kts /home/gradle/src/
 RUN gradle --parallel --build-cache --configure-on-demand dependencies
 
 COPY --chown=gradle:gradle . .
-RUN gradle build --no-daemon
+RUN gradle build --no-daemon --info
 
 FROM openjdk:17-slim
 EXPOSE 8081
