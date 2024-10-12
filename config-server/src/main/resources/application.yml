@@ -9,3 +9,5 @@ spring:
       server:
         git:
           uri: https://github.com/markusochek/spring-cloud-test-task-config.git
+          default-label: main
+          search-paths: '{application}'

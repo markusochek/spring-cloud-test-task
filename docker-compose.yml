@@ -30,8 +30,6 @@ services:
       - "15672:15672"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
 
   config-server:
     networks:
@@ -67,6 +65,8 @@ services:
       - kafka-server
 
   rabbitmq-client:
+    networks:
+      - app-network
     build: ./rabbitmq-client
     ports:
       - "8081:8081"
@@ -77,17 +77,19 @@ services:
       - eureka-server
       - rabbitmq-server
 
-#  api-gateway:
-#    build: ./api-gateway
-#    ports:
-#      - "8765:8765"
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=docker
-#    depends_on:
-#      - config-server
-#      - eureka-server
-#      - kafka-client
-#      - rabbitmq-client
+  api-gateway:
+    networks:
+      - app-network
+    build: ./api-gateway
+    ports:
+      - "8765:8765"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - config-server
+      - eureka-server
+      - kafka-client
+      - rabbitmq-client
 
 networks:
   app-network:
