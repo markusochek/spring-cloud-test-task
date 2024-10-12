@@ -9,6 +9,9 @@ spring:
     name: api-gateway
   cloud:
     gateway:
+      httpclient:
+        connect-timeout: 2000
+        response-timeout: 5s
       discovery:
         locator:
           enabled: true
